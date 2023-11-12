@@ -75,7 +75,7 @@ public class Main {
 //            selectRandomPlace = scanner.nextInt();
             if(defineWhichWay == rowWay) {
                 int selectColumnPlace = random.nextInt(max - min + 1) + min;
-                if(!(shipsColumnLocations.contains(selectColumnPlace) && shipsRowLocations.contains(selectRandomPlace))) {
+                if(isThereShip(selectRandomPlace, selectColumnPlace, shipsRowLocations, shipsColumnLocations)) {
                     if (selectColumnPlace == 6) {
                         selectColumnPlace--;
                         shipsColumnLocations.add(selectColumnPlace - 1);
@@ -92,7 +92,7 @@ public class Main {
             } else {
                 int selectRowPlace = random.nextInt((max - min) + 1) + min;
 //                int selectRowPlace = scanner.nextInt();
-                if(!(shipsColumnLocations.contains(selectRandomPlace) && shipsRowLocations.contains(selectRowPlace))) {
+                if(isThereShip(selectRandomPlace, selectRowPlace, shipsColumnLocations, shipsRowLocations)) {
                     if (selectRowPlace == 6) {
                         selectRowPlace--;
                         shipsRowLocations.add(selectRowPlace - 1);
@@ -115,8 +115,22 @@ public class Main {
             }
             System.out.println();
         }
+
+
     }
 
+    public static boolean isThereShip (int selectRandomPlace, int selectRowColumnPlace, ArrayList<Integer> shipsColumnLocations, ArrayList<Integer> shipsRowLocations) {
+        for(int i = 0; i < 3; i++) {
+            if(shipsColumnLocations.contains(selectRandomPlace - 1 + i)) {
+                for(int j = 0; j < 4; j++) {
+                    if(shipsRowLocations.contains(selectRowColumnPlace - 1 + i)) {
+                        return false;
+                    }
+                }
+            }
+        }
+        return true;
+    }
     public static void putBigShipRandomly(int selectRowColumnPlace, int selectRandomPlace, ArrayList<Integer> shipsRowLocations, ArrayList<Integer> shipsColumnLocations, int[][] matrixElement, int defineWhichWay, int whichSquare) {
         for(int i = 0; i < whichSquare; i++) {
             if(defineWhichWay == 1) {
