@@ -21,132 +21,60 @@ public class Main {
         int selectRandomPlace = random.nextInt(max - min + 1) + min;
         System.out.println(defineWhichWay);
 
-        if(defineWhichWay == rowWay) {
+        if (defineWhichWay == rowWay) {
             int selectColumnPlace = random.nextInt(max - min + 1) + min;
-            if(selectColumnPlace == 6) {
-                shipsRowLocations.add(selectRandomPlace - 1);
-                shipsRowLocations.add(selectRandomPlace);
-                shipsRowLocations.add(selectRandomPlace + 1);
+            if (selectColumnPlace == 6) {
                 selectColumnPlace -= 2;
                 shipsColumnLocations.add(selectColumnPlace - 1);
-                for(int i = 0; i < 3; i++) {
-                    matrixElement[selectRandomPlace][selectColumnPlace] = 3;
-                    shipsColumnLocations.add(selectColumnPlace);
-                    selectColumnPlace++;
-                }
-            }
-            else if(selectColumnPlace == 5) {
-                shipsRowLocations.add(selectRandomPlace - 1);
-                shipsRowLocations.add(selectRandomPlace);
-                shipsRowLocations.add(selectRandomPlace + 1);
+                putBigShipRandomly(selectColumnPlace, selectRandomPlace, shipsRowLocations, shipsColumnLocations, matrixElement, defineWhichWay);
+            } else if (selectColumnPlace == 5) {
                 selectColumnPlace--;
                 shipsColumnLocations.add(selectColumnPlace - 1);
-                for(int i = 0; i < 3; i++) {
-                    matrixElement[selectRandomPlace][selectColumnPlace] = 3;
-                    shipsColumnLocations.add(selectColumnPlace);
-                    selectColumnPlace++;
-                }
+                putBigShipRandomly(selectColumnPlace, selectRandomPlace, shipsRowLocations, shipsColumnLocations, matrixElement, defineWhichWay);
                 shipsColumnLocations.add(selectColumnPlace + 1);
-            }
-            else {
-                shipsRowLocations.add(selectRandomPlace - 1);
-                shipsRowLocations.add(selectRandomPlace);
-                shipsRowLocations.add(selectRandomPlace + 1);
+            } else {
                 shipsColumnLocations.add(selectColumnPlace - 1);
-                for(int i = 0; i < 3; i++) {
-                    matrixElement[selectRandomPlace][selectColumnPlace] = 3;
-                    shipsColumnLocations.add(selectColumnPlace);
-                    selectColumnPlace++;
-                }
+                putBigShipRandomly(selectColumnPlace, selectRandomPlace, shipsRowLocations, shipsColumnLocations, matrixElement, defineWhichWay);
                 shipsColumnLocations.add(selectColumnPlace + 1);
             }
-        }
-        else {
+        } else {
             int selectRowPlace = random.nextInt(max - min + 1) + min;
-            if(selectRowPlace == 6) {
-                shipsColumnLocations.add(selectRandomPlace - 1);
-                shipsColumnLocations.add(selectRandomPlace);
-                shipsColumnLocations.add(selectRandomPlace + 1);
+            if (selectRowPlace == 6) {
                 selectRowPlace -= 2;
                 shipsRowLocations.add(selectRowPlace - 1);
-                for(int i = 0; i < 3; i++) {
-                    matrixElement[selectRowPlace][selectRandomPlace] = 3;
-                    shipsRowLocations.add(selectRowPlace);
-                    selectRowPlace++;
-                }
-            }
-            else if(selectRowPlace == 5) {
-                shipsColumnLocations.add(selectRandomPlace - 1);
-                shipsColumnLocations.add(selectRandomPlace);
-                shipsColumnLocations.add(selectRandomPlace + 1);
+                putBigShipRandomly(selectRowPlace, selectRandomPlace, shipsRowLocations, shipsColumnLocations, matrixElement, defineWhichWay);
+            } else if (selectRowPlace == 5) {
                 selectRowPlace--;
                 shipsRowLocations.add(selectRowPlace - 1);
-                for(int i = 0; i < 3; i++) {
-                    matrixElement[selectRowPlace][selectRandomPlace] = 3;
-                    shipsRowLocations.add(selectRowPlace);
-                    selectRowPlace++;
-                }
+                putBigShipRandomly(selectRowPlace, selectRandomPlace, shipsRowLocations, shipsColumnLocations, matrixElement, defineWhichWay);
                 shipsRowLocations.add(selectRowPlace + 1);
-            }
-            else {
-                shipsColumnLocations.add(selectRandomPlace - 1);
-                shipsColumnLocations.add(selectRandomPlace);
-                shipsColumnLocations.add(selectRandomPlace + 1);
+            } else {
                 shipsRowLocations.add(selectRowPlace - 1);
-                for(int i = 0; i < 3; i++) {
-                    matrixElement[selectRowPlace][selectRandomPlace] = 3;
-                    shipsRowLocations.add(selectRowPlace);
-                    selectRowPlace++;
-                }
+                putBigShipRandomly(selectRowPlace, selectRandomPlace,shipsRowLocations, shipsColumnLocations, matrixElement, defineWhichWay);
                 shipsRowLocations.add(selectRowPlace + 1);
             }
         }
 
-        for(int i = 0; i < 7; i++) {
-            for(int j = 0; j < 7; j++) {
+        for (int i = 0; i < 7; i++) {
+            for (int j = 0; j < 7; j++) {
                 System.out.print(matrixElement[i][j] + "  ");
             }
             System.out.println();
         }
     }
 
-//    public static void putBigShipRandomly (int selectColumnPlace, int selectRandomPlace, ArrayList<Integer> shipsRowLocations, ArrayList<Integer> shipsColumnLocations, int[][] matrixElement) {
-//        if(selectColumnPlace == 6) {
-//            shipsRowLocations.add(selectRandomPlace - 1);
-//            shipsRowLocations.add(selectRandomPlace);
-//            shipsRowLocations.add(selectRandomPlace + 1);
-//            selectColumnPlace -= 2;
-//            shipsColumnLocations.add(selectColumnPlace - 1);
-//            for(int i = 0; i < 3; i++) {
-//                matrixElement[selectRandomPlace][selectColumnPlace] = 3;
-//                shipsColumnLocations.add(selectColumnPlace);
-//                selectColumnPlace++;
-//            }
-//        }
-//        else if(selectColumnPlace == 5) {
-//            shipsRowLocations.add(selectRandomPlace - 1);
-//            shipsRowLocations.add(selectRandomPlace);
-//            shipsRowLocations.add(selectRandomPlace + 1);
-//            selectColumnPlace--;
-//            shipsColumnLocations.add(selectColumnPlace - 1);
-//            for(int i = 0; i < 3; i++) {
-//                matrixElement[selectRandomPlace][selectColumnPlace] = 3;
-//                shipsColumnLocations.add(selectColumnPlace);
-//                selectColumnPlace++;
-//            }
-//            shipsColumnLocations.add(selectColumnPlace + 1);
-//        }
-//        else {
-//            shipsRowLocations.add(selectRandomPlace - 1);
-//            shipsRowLocations.add(selectRandomPlace);
-//            shipsRowLocations.add(selectRandomPlace + 1);
-//            shipsColumnLocations.add(selectColumnPlace - 1);
-//            for(int i = 0; i < 3; i++) {
-//                matrixElement[selectRandomPlace][selectColumnPlace] = 3;
-//                shipsColumnLocations.add(selectColumnPlace);
-//                selectColumnPlace++;
-//            }
-//            shipsColumnLocations.add(selectColumnPlace + 1);
-//        }
-//    }
+    public static void putBigShipRandomly(int selectRowColumnPlace, int selectRandomPlace, ArrayList<Integer> shipsRowLocations, ArrayList<Integer> shipsColumnLocations, int[][] matrixElement, int defineWhichWay) {
+        for(int i = 0; i < 3; i++) {
+            if(defineWhichWay == 1) {
+                shipsRowLocations.add(selectRandomPlace - 1 + i);
+                matrixElement[selectRandomPlace][selectRowColumnPlace + i] = 3;
+                shipsColumnLocations.add(selectRowColumnPlace + i);
+            }
+            else {
+                shipsColumnLocations.add(selectRandomPlace - 1 + i);
+                matrixElement[selectRowColumnPlace + i][selectRandomPlace] = 3;
+                shipsRowLocations.add(selectRowColumnPlace + i);
+            }
+        }
+    }
 }
