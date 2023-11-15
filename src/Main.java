@@ -1,7 +1,5 @@
 import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.Random;
-import java.util.Scanner;
+import java.util.*;
 
 public class Main {
     public static void main(String[] args) {
@@ -12,14 +10,15 @@ public class Main {
 
         ArrayList<String> playersName = new ArrayList<>();
         ArrayList<Integer> playerStatsPercentage  = new ArrayList<>();
-        int countAttempts = 0;
+        ArrayList<Integer> playersAttempts = new ArrayList<>();
+        ArrayList<Integer> sortedPlayersStatics = new ArrayList<>();
 
         while(true) {
             System.out.print("Enter your name: ");
             String getNameOfPlayer = scanner.next();
             playersName.add(getNameOfPlayer);
-            System.out.println(getNameOfPlayer + " Welcome to Sea Battle Game \nFirst of all, before starting the game, we suggest you read the game instructions.");
-            System.out.println("Battle Game Instructions:\n" + "\n" + "Coordinates Entry:\n" + "\n" + "Enter coordinates as a letter (capitalized) followed by a number (e.g., A3, D7).\n" + "Hitting Ships:\n" + "\n" + "If you hit a ship, it will be marked with \"H\".\n" + "Missing Shots:\n" + "\n" + "If you miss a ship, the field will display \"M\".\n" + "Sinking a Ship:\n" + "\n" + "If you successfully sink a ship, it will be marked with \"S\".\n" + "Valid Coordinates:\n" + "\n" + "Ensure coordinates are within the field boundaries.\n" + "Avoid repeating coordinates that were already guessed.\n" + "Enjoy the battle, and may your strategic skills prevail! \uD83D\uDEA2⚓\uFE0F" + "\n\n");
+            System.out.println(getNameOfPlayer + " Welcome to Sea Battle Game! \n\nFirst of all, before starting the game, we suggest you read the game instructions.");
+            System.out.println("Battle Game Instructions:" + "\n" + "Coordinates Entry:" + "\n" + "Enter coordinates as a letter (capitalized) followed by a number (e.g., A3, D7).\n\n" + "Hitting Ships:" + "\n" + "If you hit a ship, it will be marked with \"H\".\n\n" + "Missing Shots:" + "\n" + "If you miss a ship, the field will display \"M\".\n\n" + "Sinking a Ship:" + "\n" + "If you successfully sink a ship, it will be marked with \"S\".\n\n" + "Valid Coordinates:" + "\n" + "Ensure coordinates are within the field boundaries.\n" + "Avoid repeating coordinates that were already guessed.\n" + "Enjoy the battle, and may your strategic skills prevail! \uD83D\uDEA2⚓\uFE0F" + "\n\n");
 
             try {
                 Thread.sleep(20000);
@@ -126,6 +125,8 @@ public class Main {
                 System.out.println();
             }
 
+            ArrayList<Integer> isRowCoordinateRepeated = new ArrayList<>();
+            ArrayList<Integer> isColumnCoordinateRepeated = new ArrayList<>();
             ArrayList<String> playersColumnAnswer = new ArrayList<>();
             ArrayList<Integer> playersRowAnswer = new ArrayList<>();
             playersColumnAnswer.add("A");
@@ -147,9 +148,10 @@ public class Main {
             ArrayList<Integer> secondTwoSquareShipsColumn = new ArrayList<>();
             int indexColumn;
             int indexRow;
+            int countAttempts = 0;
             while(!haveAllShipsBeenHit(shipsLocations)) {
+                countAttempts++;
                 while(true) {
-                    countAttempts++;
                     System.out.print("Put letter: ");
                     String getColumnLocation = scanner.next();
                     System.out.print("Put number: ");
@@ -157,7 +159,11 @@ public class Main {
                     if(playersColumnAnswer.contains(getColumnLocation) && playersRowAnswer.contains(getRowLocation)) {
                         indexColumn = playersColumnAnswer.indexOf(getColumnLocation);
                         indexRow = playersRowAnswer.indexOf(getRowLocation);
-                        break;
+                        if(enteredLocations[indexRow][indexColumn] == "■") {
+                            break;
+                        } else {
+                            System.out.println("You are not allowed to enter the same coordinates twice");
+                        }
                     } else {
                         System.out.println("Something went wrong! \nDo everything as stated in the instructions");
                     }
@@ -222,17 +228,15 @@ public class Main {
                 }
             }
 
-            double percentage = (11 / countAttempts) * 100;
+            double percentage = ((double) 11 / countAttempts) * 100;
             playerStatsPercentage.add((int)percentage);
-            String congratulationsText = "You've triumphed on the high seas, sinking every enemy ship with strategic mastery. " +
-                    "Your precision and cunning secured a decisive victory, making the seas safe once again. " +
-                    "Your leadership will be remembered in naval lore. Well done, and may your future voyages be just as triumphant!";
+            playersAttempts.add(countAttempts);
+            sortedPlayersStatics.add(countAttempts);
+            String congratulationsText = " You've triumphed on the high seas, sinking every enemy ship with strategic mastery. " +
+                    "\nYour precision and cunning secured a decisive victory, making the seas safe once again. " +
+                    "\nYour leadership will be remembered in naval lore. Well done, and may your future voyages be just as triumphant!";
             System.out.println("\n\nCongratulations, Admiral " + getNameOfPlayer + "!" + congratulationsText + "\n\uD83D\uDEA2⚓\uFE0F Victory Achieved! ⚓\uFE0F\uD83D\uDEA2");
             System.out.println("\n  You've successfully destroyed all ships on your " + countAttempts + "th attempt!");
-            System.out.println("\nRating of players:");
-            for(int i = 0; i < playerStatsPercentage.size(); i++) {
-                System.out.println(1 + i + ". " + playersName.get(i) + ": \nHit statistics:  " + playerStatsPercentage.get(i) + "%     Attempts Made:  " + countAttempts);
-            }
 
             try {
                 Thread.sleep(10000);
@@ -245,6 +249,13 @@ public class Main {
             if(willPlayerPlay == 2) {
                 break;
             }
+        }
+
+        Arrays.sort(new ArrayList[]{sortedPlayersStatics}, Collections.reverseOrder());
+        System.out.println("\nRating of players:");
+        for(int i = 0; i < sortedPlayersStatics.size(); i++) {
+            int sortDescending = playersAttempts.indexOf(sortedPlayersStatics.get(i));
+            System.out.println(1 + i + ". " + playersName.get(sortDescending) + ": \nHit statistics:  " + playerStatsPercentage.get(sortDescending) + "%     Attempts Made:  " + playersAttempts.get(sortDescending));
         }
     }
 
